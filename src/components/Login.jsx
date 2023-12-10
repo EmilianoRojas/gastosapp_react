@@ -18,7 +18,6 @@ function Login() {
 
   async function handleLogin() {
     setErrorMessage('');
-
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -54,7 +53,7 @@ function Login() {
   const ErrorCard = () => {
     if (!errorMessage) return null; // Don't render if no error
     return (
-      <div className=" bg-red-200 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <div className="error-card" role="alert">
         <strong className="font-bold">Error:</strong>
         <span className="block sm:inline">{errorMessage}</span>
       </div>

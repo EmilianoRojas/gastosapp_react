@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.error-card {
+  background-color: #fad8d4; /* Light red background */
+  border: 1px solid #ffcccc; /* Red border */
+  color: #cc0000; /* Red text */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.error-card strong {
+  font-weight: bold;
+}
