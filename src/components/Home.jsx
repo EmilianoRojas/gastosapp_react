@@ -7,31 +7,32 @@ function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-        
-const { data: { user } } = await supabase.auth.getUser()
-        
-        if (user) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
         try {
-            const { data, error } = await supabase
+          const { data, error } = await supabase
             .from('transactions')
             .select()
             .eq('user_id', user.id);
 
-            if (error) throw error;
-            setData(data);
+          if (error) throw error;
+          setData(data);
         } catch (error) {
-            console.error('Error fetching data:', error.message);
+          console.error('Error fetching data:', error.message);
         }
-        }
+      }
     };
 
     fetchData();
-    }, []);
+  }, []);
 
   return (
     <div>
       <h1>Página Principal</h1>
-      {data && <div>{JSON.stringify(data)}</div>} {/* Display fetched data */}
+      {data && <div>{JSON.stringify(data)}</div>}
       <Link to="/login">Iniciar Sesión</Link>
     </div>
   );
