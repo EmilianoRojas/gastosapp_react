@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { TableComponent } from './TableComponent';
 
 function Home() {
   const [data, setData] = useState(null);
@@ -15,7 +16,15 @@ function Home() {
         try {
           const { data, error } = await supabase
             .from('transactions')
-            .select()
+            .select(
+              `
+              description,
+              amount,
+              category_id,
+              categories (
+                name
+              )`,
+            )
             .eq('user_id', user.id);
 
           if (error) throw error;
@@ -31,9 +40,7 @@ function Home() {
 
   return (
     <div>
-      <h1>Página Principal</h1>
-      {data && <div>{JSON.stringify(data)}</div>}
-      <Link to="/login">Iniciar Sesión</Link>
+      <TableComponent data={data} />
     </div>
   );
 }
