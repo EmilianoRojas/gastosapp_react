@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { TableComponent } from './TableComponent';
+import CreateTransaction from './CreateTransaction';
+import NavbarComponent from './Navbar';
 
 function Home() {
   const [data, setData] = useState(null);
@@ -40,7 +42,11 @@ function Home() {
 
   return (
     <div>
-      <TableComponent data={data} />
+      <NavbarComponent />
+      <div className="p-2">
+        <CreateTransaction />
+        <TableComponent data={data} />
+      </div>
     </div>
   );
 }
