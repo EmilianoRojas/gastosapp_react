@@ -8,35 +8,34 @@ import NavbarComponent from './Navbar';
 function Home() {
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+  const fetchData = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-      if (user) {
-        try {
-          const { data, error } = await supabase
-            .from('transactions')
-            .select(
-              `
-              description,
-              amount,
-              category_id,
-              categories (
-                name
-              )`,
-            )
-            .eq('user_id', user.id);
+    if (user) {
+      try {
+        const { data, error } = await supabase
+          .from('transactions')
+          .select(
+            `
+            description,
+            amount,
+            category_id,
+            categories (name)
+          `,
+          )
+          .eq('user_id', user.id);
 
-          if (error) throw error;
-          setData(data);
-        } catch (error) {
-          console.error('Error fetching data:', error.message);
-        }
+        if (error) throw error;
+        setData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -44,7 +43,7 @@ function Home() {
     <div>
       <NavbarComponent />
       <div className="p-2">
-        <CreateTransaction />
+        <CreateTransaction onTransactionCreated={fetchData} />
         <TableComponent data={data} />
       </div>
     </div>

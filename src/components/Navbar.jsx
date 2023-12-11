@@ -11,30 +11,20 @@ import {
   NavbarMenuItem,
 } from '@nextui-org/react';
 import { AcmeLogo } from '../assets/Icons/AcmeLogo';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 export default function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [
-    'Profile',
-    'Dashboard',
-    'Activity',
-    'Analytics',
-    'System',
-    'Deployments',
-    'My Settings',
-    'Team Settings',
-    'Help & Feedback',
-    'Log Out',
-  ];
+  const menuItems = ['Profile', 'Dashboard', 'Log Out'];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar isBordered onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} className="sm:hidden" />
         <NavbarBrand>
           <AcmeLogo />
-          <p className="font-bold text-inherit">ACME</p>
+          <p className="font-bold text-inherit">gastosapp</p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -60,9 +50,7 @@ export default function NavbarComponent() {
           <Link href="#">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <ThemeSwitcher />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>

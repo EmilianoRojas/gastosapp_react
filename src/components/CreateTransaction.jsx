@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { Input, Button, Select, SelectItem } from '@nextui-org/react';
-const CreateTransaction = () => {
+
+const CreateTransaction = ({ onTransactionCreated }) => {
   const [transaction, setTransaction] = useState({
     date: new Date().toISOString().slice(0, 10),
     amount: '',
@@ -26,7 +27,7 @@ const CreateTransaction = () => {
       if (error) {
         console.error('Error fetching categories: ', error);
       } else {
-        setCategories(data.map((category) => ({ label: category.name, value: category.id.toString() })));
+        setCategories(data.map((category) => ({ label: category.name, value: category.id })));
       }
     };
 
@@ -36,13 +37,13 @@ const CreateTransaction = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data, error } = await supabase.from('transactions').insert([transaction]);
 
-    if (error) {
-      console.error('Error inserting data: ', error);
-    } else {
+    try {
+      const { data, error } = await supabase.from('transactions').insert([transaction]);
+
+      if (error) throw error;
+
       console.log('Data inserted: ', data);
-      // Reset form or navigate away
       setTransaction({
         date: '',
         amount: '',
@@ -51,11 +52,16 @@ const CreateTransaction = () => {
         payment_method: '',
         user_id: transaction.user_id,
       });
+      onTransactionCreated();
+    } catch (error) {
+      console.error('Error inserting data: ', error.message);
     }
   };
 
   const handleSelectChange = (value) => {
-    setTransaction({ ...transaction, category_id: value });
+    console.log(transaction);
+    setTransaction({ ...transaction, category_id: value.target.value });
+    console.log(transaction);
   };
 
   const handleChange = (e) => {
@@ -106,16 +112,6 @@ const CreateTransaction = () => {
           </SelectItem>
         )}
       </Select>
-
-      {/* <Input
-        isClearable
-        variant="bordered"
-        label="Payment Method"
-        type="text"
-        name="payment_method"
-        value={transaction.payment_method}
-        onChange={handleChange}
-      /> */}
       <Button type="submit" color="success">
         Create Transaction
       </Button>
