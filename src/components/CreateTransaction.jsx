@@ -45,7 +45,7 @@ const CreateTransaction = ({ onTransactionCreated }) => {
 
       console.log('Data inserted: ', data);
       setTransaction({
-        date: '',
+        date: new Date().toISOString().slice(0, 10),
         amount: '',
         description: '',
         category_id: '',

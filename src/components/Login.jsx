@@ -84,7 +84,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button color="primary" isLoading={loading} onClick={handleLogin}>
-          Iniciar Sesión
+          Sign in
         </Button>
         <Button onClick={handleGoogleLogin}>
           <GoogleIcon />

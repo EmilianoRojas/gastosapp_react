@@ -4,9 +4,11 @@ import { supabase } from '../supabaseClient';
 import { TableComponent } from './TableComponent';
 import CreateTransaction from './CreateTransaction';
 import NavbarComponent from './Navbar';
+import TotalExpenses from './TotalExpenses';
 
 function Home() {
   const [data, setData] = useState(null);
+  const [totalExpenses, setTotalExpenses] = useState(0);
 
   const fetchData = async () => {
     const {
@@ -19,6 +21,7 @@ function Home() {
           .from('transactions')
           .select(
             `
+            id,
             description,
             amount,
             category_id,
@@ -29,6 +32,8 @@ function Home() {
 
         if (error) throw error;
         setData(data);
+        const total = data.reduce((acc, transaction) => acc + transaction.amount, 0);
+        setTotalExpenses(total);
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
@@ -43,6 +48,7 @@ function Home() {
     <div>
       <NavbarComponent />
       <div className="p-2">
+        {data && <TotalExpenses data={data} />}
         <CreateTransaction onTransactionCreated={fetchData} />
         <TableComponent data={data} />
       </div>
