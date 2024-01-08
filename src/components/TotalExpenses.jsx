@@ -1,6 +1,7 @@
 import React from 'react';
 
 function TotalExpenses({ data }) {
+  console.log(data);
   const total = data.reduce((acc, transaction) => acc + transaction.amount, 0);
 
   return (
